@@ -1,0 +1,19 @@
+/* I2C-1: My i2c and muxing it for my needs */
+&am33xx_pinmux {
+        my_i2c1_pins: my_i2c1_pins {
+                pinctrl-single,pins = < /* My device: i2c addr 0x22, 0x23 */
+                        /* (A16)/(Pin 50)  spi0_cs0.I2C1_SCL   */
+                        AM33XX_IOPAD(0x95c, PIN_INPUT | MUX_MODE2)
+                        /* (B16)/(Pin 49)  spi0_d1.I2C1_SDA    */
+                        AM33XX_IOPAD(0x958, PIN_INPUT | MUX_MODE2)
+                >;
+        };
+};
+
+/* My i2c device 0x22, 0x23 */
+&i2c1 { 
+        status = "okay";
+        pinctrl-names = "default";
+        pinctrl-0 = <&my_i2c1_pins>;
+        clock-frequency = <100000>;
+};
