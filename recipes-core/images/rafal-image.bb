@@ -26,6 +26,15 @@ IMAGE_INSTALL:append = " rafal-oled"
 # To add static lib to ...(created image?)
 # TOOLCHAIN_TARGET_TASK:append = " led-display-lib-staticdev"
 
+# Enable SSH connection and SCP feature
+CORE_IMAGE_BASE_INSTALL:append = "\
+    openssh \
+    openssh-sftp \
+    openssh-sftp-server"
+
+# (Probably) Another method to enable SSH
+# IMAGE_FEATURES:append = " ssh-server-dropbear"
+
 # EXTRA_USERS_PARAMS = "\
 #     usermod -p '\$1\$lI.jNNnj$ga9VEs76BrIOuFM45PoOn0' root; \
 #     useradd -p '' tester; \
