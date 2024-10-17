@@ -19,6 +19,7 @@ IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 
 
 IMAGE_INSTALL:append = " libgpiod libgpiod-dev libgpiod-tools"
+IMAGE_INSTALL:append = " rafal-i2c"
 
 # EXTRA_USERS_PARAMS = "\
 #     usermod -p '\$1\$lI.jNNnj$ga9VEs76BrIOuFM45PoOn0' root; \
