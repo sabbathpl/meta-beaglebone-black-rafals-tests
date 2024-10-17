@@ -20,6 +20,11 @@ IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 
 IMAGE_INSTALL:append = " libgpiod libgpiod-dev libgpiod-tools"
 IMAGE_INSTALL:append = " rafal-i2c"
+IMAGE_INSTALL:append = " rafal-oled"
+# IMAGE_INSTALL:append = " led-display-lib"
+
+# To add static lib to ...(created image?)
+# TOOLCHAIN_TARGET_TASK:append = " led-display-lib-staticdev"
 
 # EXTRA_USERS_PARAMS = "\
 #     usermod -p '\$1\$lI.jNNnj$ga9VEs76BrIOuFM45PoOn0' root; \
