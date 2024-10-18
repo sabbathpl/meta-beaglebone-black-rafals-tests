@@ -27,7 +27,7 @@ IMAGE_INSTALL:append = " rafal-oled"
 # TOOLCHAIN_TARGET_TASK:append = " led-display-lib-staticdev"
 
 # Enable SSH connection and SCP feature
-CORE_IMAGE_BASE_INSTALL:append = "\
+CORE_IMAGE_EXTRA_INSTALL:append = " \
     openssh \
     openssh-sftp \
     openssh-sftp-server"
