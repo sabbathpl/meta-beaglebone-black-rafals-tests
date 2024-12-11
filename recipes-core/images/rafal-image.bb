@@ -23,6 +23,7 @@ IMAGE_INSTALL:append = " rafal-i2c"
 IMAGE_INSTALL:append = " rafal-oled"
 IMAGE_INSTALL:append = " rafal-gpio"
 # IMAGE_INSTALL:append = " led-display-lib"
+IMAGE_INSTALL:append = " pi4ioe5"
 
 # To add static lib to ...(created image?)
 # TOOLCHAIN_TARGET_TASK:append = " led-display-lib-staticdev"
