@@ -1,0 +1,9 @@
+*.o
+*.status
+*.log
+output.*
+traces.*
+*.so*
+*.la*
+m4/
+.deps/

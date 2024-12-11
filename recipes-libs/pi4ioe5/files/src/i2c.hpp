@@ -16,8 +16,8 @@ public:
     I2cDevice(const I2cDevice&) = delete;
     I2cDevice& operator=(const I2cDevice&) = delete;
 
-    void W8D8(uint8_t reg, uint8_t data);
-    uint8_t R8D8(uint8_t reg);
+    int W8D8(uint8_t reg, uint8_t data);
+    int R8D8(uint8_t reg);
 
     int WBlock(const uint8_t *data, size_t len);
     int R8DBlock(uint8_t reg, uint8_t *data, size_t len);
@@ -36,9 +36,12 @@ public:
 	return *this;
     }
 
+    bool isCommunicationOk(void) { return !m_communication_fail; }
+
 private:
     uint8_t _addr;
     Fd _fd;
+    bool m_communication_fail;
 };
 
 #endif

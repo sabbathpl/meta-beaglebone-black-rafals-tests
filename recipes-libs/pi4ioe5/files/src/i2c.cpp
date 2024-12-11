@@ -21,27 +21,29 @@ I2cDevice::I2cDevice(const char *bus, uint8_t addr) : _addr(addr),
 	if (_fd.get() < 0)
 	{
 		printf("%s: Failed to open %s: %s\n", __PRETTY_FUNCTION__, bus, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		m_communication_fail = true;
 	}
 
 	if (ioctl(_fd.get(), I2C_SLAVE, addr) < 0)
 	{
 		printf("%s: Failed to set I2C_SLAVE on %s with address 0x%02x: %s\n",
 			   __PRETTY_FUNCTION__, bus, addr, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		m_communication_fail = true;
 	}
 }
 
-void I2cDevice::WBlock(const uint8_t *data, size_t len)
+int I2cDevice::WBlock(const uint8_t *data, size_t len)
 {
 	if (write(_fd.get(), data, len) < 0)
 	{
 		printf("%s: Failed to write block to address 0x%02x: %s\n", __PRETTY_FUNCTION__, _addr, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		return -1;
 	}
+
+	return 0;
 }
 
-void I2cDevice::W8D8(uint8_t reg, uint8_t data)
+int I2cDevice::W8D8(uint8_t reg, uint8_t data)
 {
 	uint8_t buf[2] = {reg, data};
 
@@ -49,11 +51,13 @@ void I2cDevice::W8D8(uint8_t reg, uint8_t data)
 	{
 		printf("%s: Failed to write to register 0x%02x on address 0x%02x with data 0x%02x: %s\n",
 			   __PRETTY_FUNCTION__, reg, _addr, data, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		return -1;
 	}
+
+	return 0;
 }
 
-uint8_t I2cDevice::R8D8(uint8_t reg)
+int I2cDevice::R8D8(uint8_t reg)
 {
 	uint8_t inbuf;
 	::i2c_msg msgs[] = {
@@ -80,13 +84,13 @@ uint8_t I2cDevice::R8D8(uint8_t reg)
 	{
 		printf("%s: Failed to perform I2C_RDWR on address 0x%02x, register 0x%02x: %s\n",
 			   __PRETTY_FUNCTION__, _addr, reg, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		return -1;
 	}
 
 	return inbuf;
 }
 
-void I2cDevice::R8DBlock(uint8_t reg, uint8_t *data, size_t len)
+int I2cDevice::R8DBlock(uint8_t reg, uint8_t *data, size_t len)
 {
 	::i2c_msg msgs[] = {
 		{
@@ -112,6 +116,8 @@ void I2cDevice::R8DBlock(uint8_t reg, uint8_t *data, size_t len)
 	{
 		printf("%s: Failed to perform I2C_RDWR on address 0x%02x, register 0x%02x: %s\n",
 			   __PRETTY_FUNCTION__, _addr, reg, strerror(errno));
-		throw std::system_error(errno, std::generic_category());
+		return -1;
 	}
+
+	return 0;
 }
